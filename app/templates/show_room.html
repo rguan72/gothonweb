@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1> Hi, {{ current_user.username }}</h1>
+<h1> {{ room.name }} </h1>
+
+<pre>
+{{ room.description }}
+</pre>
+
+
+{% if room.name in ["death", "The End"] %}
+    <form action="/">
+        <p><input type="submit" value="Play Again?" /></p>
+    </form>
+{% elif room.name in ["Central Corridor"] %}
+    <p>
+    <form action="/game" method="POST">
+        <input type="radio" name="action" value="shoot!"> Shoot!<br>
+        <input type="radio" name="action" value="dodge!"> Dodge<br>
+        <input type="radio" name="action" value="tell a joke"> Tell a Joke<br>
+        <div><input type="SUBMIT"></div>
+    </form>
+    </p>
+{% elif room.name in ["Laser Weapon Armory"] %}
+    <p>
+      Attempts left: {{ 10 - room.iters }}
+      <form action="/game" method="POST">
+            <input type="number" name="action" min="000" max="999">
+            <div><input type="SUBMIT"></div>
+      </form>
+    </p>
+{% elif room.name in ["The Bridge"] %}
+    <p>
+    <form action="/game" method="POST">
+        <input type="radio" name="action" value="throw the bomb"> Throw the bomb<br>
+        <input type="radio" name="action" value="slowly place the bomb"> Slowly place the bomb<br>
+        <div><input type="SUBMIT"></div>
+    </p>
+{% elif room.name in ["Escape Pod"] %}
+    <p>
+    <form action="/game" method="POST">
+        <input type="number" name="action" min="1" max="5">
+        <div><input type="SUBMIT"></div>
+    </form>
+  </p>
+{% else %}
+    <p>
+    Oops! You are in a room that should not exist.
+    <a href="/"> Return to beginning of game </a>
+    </p>
+{% endif %}
+
+
+{% endblock %}
